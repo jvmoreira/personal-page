@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Página pessoal de João Vitor Moreira.">
+
+  <title>João Vitor - Linhas e Formas</title>
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;700&display=swap">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css">
+</head>
+<body class="p-4 md:px-20 md:py-32" style="font-family: 'Nunito', sans-serif; background-color: #1E1E1E">
+
+  <main class="w-full p-4 md:p-6 rounded-xl" style="background-color: #121212; color: #DFDFDF">
+
+        <h2 class="text-3xl mb-10 font-light">Modelador de <span class="font-normal">Linhas e Formas</span></h2>
+
+        <article class="w-full h96 flex flex-row flex-wrap">
+
+          <div class="w-full md:w-1/3 md:pr-6">
+
+            <p>Bem vindo ao modelador de Linhas e Formas, utilize o mouse para movimentar, criar e remover os elementos no quadro.</p>
+
+            <p class="mt-6">
+              <label for="vertexesNumber" class="mr-2">Número de pontos:</label>
+              <input id="vertexesNumber" value="2" class="rounded-sm px-3 py-1 text-sm outline-none max-w-full" style="background-color: #292929" />
+            </p>
+
+            <div class="my-12">
+              <p>Instruções:</p>
+              <ul class="list-disc list-inside text-sm">
+                <li class="mt-2">Mova um ponto com o botão esquerdo do mouse</li>
+                <li class="mt-2">Delete um ponto com o botão direito do mouse</li>
+                <li class="mt-2">Mova uma aresta com o botão esquerdo do mouse</li>
+                <li class="mt-2">Adicione um novo ponto em uma aresta com o botão direito do mouse</li>
+              </ul>
+            </div>
+
+          </div>
+
+          <div id="shapes-container" style="background-color: #292929;" class="w-full md:w-2/3 max-w-1/2 h-96 rounded-md">
+            <noscript>Your browser does not support JavaScript!</noscript>
+          </div>
+
+        </article>
+
+  </main>
+
+<!-- Scripts -->
+<script src="js/shapes/custom-events.js"></script>
+<script src="js/shapes/globals.js"></script>
+<script src="js/shapes/vertex.js"></script>
+<script src="js/shapes/edge.js"></script>
+<script src="js/shapes/svg-frame.js"></script>
+<script>
+    const svgFrame = SvgFrame.mount('shapes-container');
+    const vertexesInput = document.getElementById("vertexesNumber");
+
+    vertexesInput.oninput = () => {
+        const vertexesInputValue = vertexesInput.value;
+
+        if(vertexesInputValue.length > 1) {
+            vertexesInput.value = vertexesInputValue[0];
+            return;
+        }
+
+        if(!/\d/.test(vertexesInputValue)) {
+            vertexesInput.value = "";
+            return;
+        }
+
+        svgFrame.buildShape(parseInt(vertexesInputValue));
+    }
+
+    vertexesInput.dispatchEvent(new Event("input"));
+</script>
+
+</body>
+</html>
